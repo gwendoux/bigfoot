@@ -22,7 +22,6 @@ module.exports = (grunt) ->
 
   lessSet = 'dist/bigfoot-default.css': 'dist/bigfoot-default.less'
   autoprefixSet = 'dist/bigfoot-default.css': 'dist/bigfoot-default.css'
-  cssMinSet = 'dist/bigfoot-default.min.css': 'dist/bigfoot-default.css'
 
   variants.forEach (variant) ->
     css = "dist/bigfoot-#{variant}.css"
@@ -61,6 +60,11 @@ module.exports = (grunt) ->
     autoprefixer:
       dist:
         files: autoprefixSet
+
+    clean:
+      dist: ['dist']
+      js: ['dist/**/*.js']
+      styles: ['dist/**/*.css', 'dist/**/*.less']
 
     watch:
       options:
