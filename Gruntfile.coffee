@@ -1,9 +1,9 @@
 module.exports = (grunt) ->
   baseStyles = [
-    'src/scss/foundation/bigfoot-variables.scss'
-    'src/scss/foundation/bigfoot-mixins.scss'
-    'src/scss/base/bigfoot-button.scss'
-    'src/scss/base/bigfoot-popover.scss'
+    'src/less/foundation/bigfoot-variables.less'
+    'src/less/foundation/bigfoot-mixins.less'
+    'src/less/base/bigfoot-button.less'
+    'src/less/base/bigfoot-popover.less'
   ]
   variants = [
     'bottom'
@@ -18,22 +18,23 @@ module.exports = (grunt) ->
 
     main:
       src: baseStyles
-      dest: 'dist/bigfoot-default.scss'
+      dest: 'dist/bigfoot-default.less'
 
-  sassSet = 'dist/bigfoot-default.css': 'dist/bigfoot-default.scss'
+  lessSet = 'dist/bigfoot-default.css': 'dist/bigfoot-default.less'
   autoprefixSet = 'dist/bigfoot-default.css': 'dist/bigfoot-default.css'
+  cssMinSet = 'dist/bigfoot-default.min.css': 'dist/bigfoot-default.css'
 
   variants.forEach (variant) ->
     css = "dist/bigfoot-#{variant}.css"
-    scss = css.replace('.css', '.scss')
-    src = scss.replace('dist/', 'src/scss/variants/')
+    less = css.replace('.css', '.less')
+    src = less.replace('dist/', 'src/less/variants/')
     conc = baseStyles.slice(0)
     conc.push src
     concatSet[variant] =
       src: conc
-      dest: scss
+      dest: less
 
-    sassSet[css] = scss
+    lessSet[css] = less
     autoprefixSet[css] = css
 
 
@@ -53,12 +54,9 @@ module.exports = (grunt) ->
         src: 'src/coffee/bigfoot.coffee'
         dest: 'dist/bigfoot.js'
 
-    sass:
+    less:
       dist:
-        options:
-          style: 'expanded'
-
-        files: sassSet
+        files: lessSet
 
     autoprefixer:
       dist:
@@ -74,11 +72,11 @@ module.exports = (grunt) ->
         options:
           spawn: false
 
-      scss:
-        files: ['src/**/*.scss']
+      less:
+        files: ['src/**/*.less']
         tasks: [
           'concat'
-          'sass'
+          'less'
           'autoprefixer'
         ]
         options:
@@ -93,13 +91,13 @@ module.exports = (grunt) ->
     'coffee'
     'uglify'
     'concat'
-    'sass'
+    'less'
     'autoprefixer'
   ]
 
   grunt.registerTask 'styles', [
     'concat'
-    'sass'
+    'less'
     'autoprefixer'
   ]
 
